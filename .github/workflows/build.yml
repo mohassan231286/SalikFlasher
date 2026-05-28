@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '18'
       - name: Unzip project
-        run: unzip SalikFlasher_ReactNative*.zip
+        run: unzip "SalikFlasher_ReactNative (1).zip"
       - name: Install deps
         run: cd SalikFlasher && npm install
       - name: Build APK
