@@ -26,6 +26,11 @@ jobs:
             delete pkg.dependencies['react-native-usb-serialport-for-android'];
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "
+      - name: Fix Gradle version
+        run: |
+          cd SalikFlasher/android
+          sed -i 's/gradle-8\.[0-9]*/gradle-7.6.3/g' gradle/wrapper/gradle-wrapper.properties
+          cat gradle/wrapper/gradle-wrapper.properties
       - name: Install deps
         run: cd SalikFlasher && npm install --legacy-peer-deps
       - name: Build APK
