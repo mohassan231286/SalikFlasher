@@ -16,11 +16,7 @@ jobs:
         with:
           node-version: '18'
       - name: Unzip project
-        run: unzip "SalikFlasher_ReactNative (1).zip"
-      - name: Fix structure
-        run: |
-          cp -r SalikFlasher/\{android/* SalikFlasher/android/ 2>/dev/null || true
-          ls SalikFlasher/android/
+        run: unzip "SalikFlasher_v2.zip"
       - name: Fix package.json
         run: |
           cd SalikFlasher
