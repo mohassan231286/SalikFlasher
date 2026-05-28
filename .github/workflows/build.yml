@@ -17,16 +17,23 @@ jobs:
           node-version: '18'
       - name: Unzip project
         run: unzip "SalikFlasher_ReactNative (1).zip"
-      - name: Show structure
-        run: find . -maxdepth 4 -type f -name "gradlew" && ls -la
       - name: Fix package.json
         run: |
           cd SalikFlasher
-          sed -i 's/"react-native-usb-serialport-for-android": "\^1.0.5"/"react-native-serialport": "^2.0.0"/g' package.json
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json'));
+            delete pkg.dependencies['react-native-usb-serialport-for-android'];
+            pkg.dependencies['@serialport/stream'] = '^12.0.0';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
       - name: Install deps
         run: cd SalikFlasher && npm install --legacy-peer-deps
       - name: Build APK
-        run: cd SalikFlasher/android && chmod +x gradlew && ./gradlew assembleDebug
+        run: |
+          cd SalikFlasher/android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: SalikFlasher-APK
